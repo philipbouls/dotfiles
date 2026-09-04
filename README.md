@@ -24,7 +24,7 @@ Configuration files for my development environment across macOS and Linux.
 
 - **[Neovim](https://neovim.io)** — `nvim/`
   - Vendored copy of [quick.nvim](https://github.com/albingroen/quick.nvim) by [@albingroen](https://github.com/albingroen)
-  - Plugins managed by **`vim.pack`**, Neovim's built-in plugin manager — pinned in `nvim/nvim-pack-lock.json`
+  - Plugins managed by **[lazy.nvim](https://github.com/folke/lazy.nvim)** — lazy-loaded and pinned in `nvim/lazy-lock.json`
   - Native LSP + [Mason](https://github.com/williamboman/mason.nvim) for server management
   - [Telescope](https://github.com/nvim-telescope/telescope.nvim) (Ivy theme) — fuzzy finding
   - [Treesitter](https://github.com/nvim-treesitter/nvim-treesitter) — syntax highlighting
@@ -80,7 +80,7 @@ dotfiles/
 │   ├── init.lua              # Plugin list and per-plugin setup
 │   ├── lua/
 │   │   └── basics.lua        # Core options and keymaps
-│   ├── nvim-pack-lock.json   # Pinned plugin revisions
+│   ├── lazy-lock.json        # Pinned plugin revisions
 │   └── README.md             # quick.nvim docs and key mappings
 ├── ghostty/
 │   └── config                # Ghostty terminal config
@@ -106,8 +106,8 @@ Everything is listed in the [Brewfile](Brewfile):
 brew bundle
 ```
 
-Note **Neovim 0.12+** is required — `nvim/` uses `vim.pack`, which does not
-exist in earlier versions.
+Note **Neovim 0.11+** is required by lazy.nvim and the LSP config here.
+`tree-sitter-cli` is a hard requirement, not a nicety — see Notes.
 
 ## Installation
 
@@ -128,9 +128,10 @@ Then install tpm for tmux plugins:
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
-Start tmux and press `C-a I` to install plugins. Start Neovim and `vim.pack`
-will fetch plugins on first launch; run `:Mason` to install language servers,
-formatters, and linters.
+Start tmux and press `C-a I` to install plugins. Start Neovim and lazy.nvim
+bootstraps itself, then installs every plugin and compiles the treesitter
+parsers on first launch; run `:Mason` to install language servers, formatters,
+and linters, and `:Lazy` to manage plugins.
 
 ## Reference
 
@@ -146,8 +147,8 @@ formatters, and linters.
 
 ### Neovim plugins
 
-Installed by `vim.pack` from the list at the top of `nvim/init.lua`, pinned in
-`nvim/nvim-pack-lock.json`.
+Managed by lazy.nvim from the spec in `nvim/init.lua`, pinned in
+`nvim/lazy-lock.json`. Most load on demand — only 6 of 23 load at startup.
 
 | Plugin | What it does |
 | --- | --- |
@@ -167,7 +168,8 @@ Installed by `vim.pack` from the list at the top of `nvim/init.lua`, pinned in
 | [plenary.nvim](https://github.com/nvim-lua/plenary.nvim) | Lua utility library used as a dependency by many popular plugins. |
 | [render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim) | Renders Markdown inline with headings, code blocks, and formatting styled in the buffer. |
 | [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) | Highly extensible fuzzy finder for files, grep results, LSP symbols, and more. |
-| [tinted-nvim](https://github.com/tinted-theming/tinted-nvim) | Base16 colorscheme support; reads the palette tinty generates. |
+| [lazy.nvim](https://github.com/folke/lazy.nvim) | Modern plugin manager with lazy-loading, lockfiles, and a clean UI. |
+| [onedark.nvim](https://github.com/navarasu/onedark.nvim) | Atom-inspired One Dark colorscheme with multiple style variants. |
 | [ts-comments.nvim](https://github.com/folke/ts-comments.nvim) | Sets the correct comment style based on cursor location in embedded languages. |
 | [typescript-tools.nvim](https://github.com/pmizio/typescript-tools.nvim) | Native TypeScript language server integration, faster than tsserver wrappers. |
 | [vim-sleuth](https://github.com/tpope/vim-sleuth) | Automatically detects and sets the correct indentation style for each file. |
@@ -178,23 +180,19 @@ Installed by `vim.pack` from the list at the top of `nvim/init.lua`, pinned in
 
 | Plugin | Why not |
 | --- | --- |
-| lazy.nvim | This config uses `vim.pack`, Neovim's built-in plugin manager. A second manager would fight it over the same plugins. |
-| onedark.nvim | The colorscheme here is `tinted-nvim` driven by tinty. Two colorschemes would compete for the same highlight groups. |
 | nvim-ts-context-commentstring | Superseded by `ts-comments.nvim`, which is installed and does the same job. |
 | vim-rhubarb | Only useful as a vim-fugitive extension, and fugitive is not installed. |
 
 ## Notes
 
-- **Theming is optional.** `nvim/init.lua` picks up a base16 colorscheme from
-  [tinty](https://github.com/tinted-theming/tinty) if
-  `~/.local/share/tinted-theming/tinty/base16-vim-colors-file.vim` exists, and
-  falls back to the default colorscheme if it does not. `tinty` is in the
-  Brewfile; to generate that file, pick a scheme once:
-
-  ```sh
-  tinty install
-  tinty apply base16-default-dark   # `tinty list` shows all schemes
-  ```
+- **Colorscheme** is onedark, set in the `navarasu/onedark.nvim` block of
+  `nvim/init.lua`. Change `style` to one of `dark`, `darker`, `cool`, `deep`,
+  `warm`, `warmer`, or `light`.
+- **`tree-sitter-cli` is required**, not optional. nvim-treesitter's `main`
+  branch shells out to it to compile parsers; without it every parser fails to
+  build and syntax highlighting silently falls back to regex. Note the Homebrew
+  formula is `tree-sitter-cli` — plain `tree-sitter` installs only the C
+  library, with no binary.
 
 - The committed app plists have machine-specific state stripped (window
   positions, update-checker timestamps, and a macOS bookmark blob that
@@ -228,8 +226,9 @@ Installed by `vim.pack` from the list at the top of `nvim/init.lua`, pinned in
 ## Credits
 
 `nvim/` is a vendored copy of [quick.nvim](https://github.com/albingroen/quick.nvim)
-by [@albingroen](https://github.com/albingroen), with local fixes: added
-`typescript-tools.nvim` (referenced by a keymap and the lockfile but absent
-from the plugin list) and the missing `nvim-surround` setup call. Upstream
-publishes no license file; it is included here for personal use. All other configuration in
+by [@albingroen](https://github.com/albingroen), substantially diverged:
+migrated from `vim.pack` to lazy.nvim, swapped tinted-nvim/tinty for
+onedark.nvim, added `typescript-tools.nvim` and `which-key.nvim`, and fixed the
+missing `nvim-surround` setup call. Upstream publishes no license file; it is
+included here for personal use. All other configuration in
 this repository is covered by [LICENSE](LICENSE).

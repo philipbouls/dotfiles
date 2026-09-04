@@ -3,7 +3,6 @@
 # Deliberately scoped to what this repo configures — not a dump of the whole
 # machine. Add to it as the configs grow.
 
-tap "tinted-theming/tinted"
 tap "charmbracelet/tap"
 
 # Shell & terminal
@@ -15,13 +14,13 @@ cask "ghostty"
 brew "neovim"      # 0.12+ required: nvim/ uses vim.pack
 brew "ripgrep"     # telescope live_grep
 brew "fd"          # telescope find_files
+brew "tree-sitter-cli" # nvim-treesitter compiles parsers with this
 
 # CLI tools the fish config expects
 brew "zoxide"      # directory jumping
 brew "fzf"         # fuzzy finding
 brew "bat"         # `cat` abbreviation
 brew "tree"        # `ls` / `l` abbreviations
-brew "tinty"       # base16 theming; nvim/init.lua reads its generated colors
 
 # AI coding assistant
 brew "crush"       # config in crush/crushrc
