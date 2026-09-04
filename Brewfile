@@ -3,6 +3,8 @@
 # Deliberately scoped to what this repo configures — not a dump of the whole
 # machine. Add to it as the configs grow.
 
+tap "tinted-theming/tinted"
+
 # Shell & terminal
 brew "fish"
 brew "tmux"
@@ -18,6 +20,7 @@ brew "zoxide"      # directory jumping
 brew "fzf"         # fuzzy finding
 brew "bat"         # `cat` abbreviation
 brew "tree"        # `ls` / `l` abbreviations
+brew "tinty"       # base16 theming; nvim/init.lua reads its generated colors
 
 # macOS apps configured in macos/
 cask "stats"       # menu bar system monitor

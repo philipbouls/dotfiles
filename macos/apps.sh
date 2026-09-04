@@ -5,13 +5,15 @@
 # app will write its in-memory state back over the imported file on exit.
 #
 # `defaults import` REPLACES the whole preference domain, so anything not in
-# the committed plist (window positions, update-checker state) resets.
+# the committed plist (window positions, update-checker state) resets. Whatever
+# is there now is exported to BACKUP_DIR first.
 
 set -euo pipefail
 
 [ "$(uname)" = "Darwin" ] || { echo "macos/apps.sh: not macOS, skipping"; exit 0; }
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BACKUP_DIR="${PREFS_BACKUP_DIR:-$HOME/.dotfiles-prefs-backup/$(date +%Y%m%d-%H%M%S)}"
 
 import() {
 	local app="$1" domain="$2" file="$HERE/$1.plist"
@@ -19,6 +21,13 @@ import() {
 	if [ ! -f "$file" ]; then
 		printf '  skip  %s (no %s.plist)\n' "$app" "$app"
 		return
+	fi
+
+	# Back up whatever this machine has now, before it is replaced.
+	if defaults read "$domain" >/dev/null 2>&1; then
+		mkdir -p "$BACKUP_DIR"
+		defaults export "$domain" "$BACKUP_DIR/$domain.plist"
+		printf '  backup %-9s -> %s\n' "$app" "$BACKUP_DIR/$domain.plist"
 	fi
 
 	local was_running=0
@@ -47,9 +56,14 @@ import DockDoor  com.ethanbills.DockDoor
 # Drop the preferences cache so nothing stale gets written back.
 killall cfprefsd 2>/dev/null || true
 
-cat <<'DONE'
+printf '\n'
+if [ -d "$BACKUP_DIR" ]; then
+	printf 'Previous preferences backed up to:\n  %s\n' "$BACKUP_DIR"
+	printf 'Restore one with: defaults import <domain> %s/<domain>.plist\n\n' "$BACKUP_DIR"
+fi
 
-Done. Note:
+cat <<'DONE'
+Note:
   - DockDoor needs Screen Recording and Accessibility permission; Rectangle
     needs Accessibility. Grant those in System Settings > Privacy & Security.
   - Menu bar item positions are per-display and may need a Cmd-drag to taste.

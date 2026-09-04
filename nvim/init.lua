@@ -16,6 +16,7 @@ vim.pack.add({
 	"https://github.com/lewis6991/gitsigns.nvim",
 	"https://github.com/stevearc/conform.nvim",
 	"https://github.com/neovim/nvim-lspconfig",
+	"https://github.com/pmizio/typescript-tools.nvim",
 	"https://github.com/williamboman/mason.nvim",
 	"https://github.com/williamboman/mason-lspconfig.nvim",
 	"https://github.com/saghen/blink.lib",
@@ -145,6 +146,9 @@ vim.api.nvim_create_autocmd("PackChanged", {
 -- Treesitter Autotag
 require("nvim-ts-autotag").setup()
 
+-- Surround
+require("nvim-surround").setup()
+
 -- Auto Pairs
 require("nvim-autopairs").setup({
 	disable_filetype = { "TelescopePrompt", "vim" },
@@ -262,6 +266,11 @@ capabilities = vim.tbl_deep_extend("force", capabilities, {
 vim.lsp.config("*", { capabilities = capabilities })
 
 require("mason-lspconfig").setup()
+
+-- TypeScript: powers the <leader>i TSToolsAddMissingImports mapping above
+require("typescript-tools").setup({
+	capabilities = capabilities,
+})
 
 require("blink.cmp").setup({
 	keymap = { preset = "default" },

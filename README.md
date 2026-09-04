@@ -117,13 +117,16 @@ formatters, and linters.
 
 ## Notes
 
-- The Neovim theme hooks into [tinty](https://github.com/tinted-theming/tinty)
-  and looks for `~/.local/share/tinted-theming/tinty/base16-vim-colors-file.vim`.
-  Without tinty installed, Neovim falls back to its default colorscheme.
-- `nvim/init.lua` maps `<leader>i` to `TSToolsAddMissingImports`, which comes
-  from [typescript-tools.nvim](https://github.com/pmizio/typescript-tools.nvim).
-  That plugin is listed in the lockfile but is not in the `vim.pack.add` list,
-  so the mapping will error until it's added.
+- **Theming is optional.** `nvim/init.lua` picks up a base16 colorscheme from
+  [tinty](https://github.com/tinted-theming/tinty) if
+  `~/.local/share/tinted-theming/tinty/base16-vim-colors-file.vim` exists, and
+  falls back to the default colorscheme if it does not. `tinty` is in the
+  Brewfile; to generate that file, pick a scheme once:
+
+  ```sh
+  tinty install
+  tinty apply base16-default-dark   # `tinty list` shows all schemes
+  ```
 
 - The committed app plists have machine-specific state stripped (window
   positions, update-checker timestamps, and a macOS bookmark blob that
@@ -131,10 +134,15 @@ formatters, and linters.
   strip again if you update them.
 - `macos/apps.sh` uses `defaults import`, which **replaces** the whole
   preference domain — anything not in the committed plist resets to default.
+  It exports whatever is already there to `~/.dotfiles-prefs-backup/<timestamp>/`
+  first, so nothing is lost. Restore with
+  `defaults import <domain> <backup>/<domain>.plist`.
 
 ## Credits
 
 `nvim/` is a vendored copy of [quick.nvim](https://github.com/albingroen/quick.nvim)
-by [@albingroen](https://github.com/albingroen). Upstream publishes no license
-file; it is included here as-is for personal use. All other configuration in
+by [@albingroen](https://github.com/albingroen), with local fixes: added
+`typescript-tools.nvim` (referenced by a keymap and the lockfile but absent
+from the plugin list) and the missing `nvim-surround` setup call. Upstream
+publishes no license file; it is included here for personal use. All other configuration in
 this repository is covered by [LICENSE](LICENSE).
