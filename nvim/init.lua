@@ -23,6 +23,7 @@ vim.pack.add({
 	"https://github.com/saghen/blink.cmp",
 	"https://github.com/rafamadriz/friendly-snippets",
 	"https://github.com/folke/ts-comments.nvim",
+	"https://github.com/folke/which-key.nvim",
 })
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -286,3 +287,8 @@ require("blink.cmp").setup({
 
 -- Comments
 require("ts-comments").setup()
+
+-- Which Key: surfaces the `desc` already set on the mappings above
+require("which-key").setup({
+	preset = "helix",
+})

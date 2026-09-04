@@ -66,6 +66,10 @@ Configuration files for my development environment across macOS and Linux.
   - [Rectangle](https://rectangleapp.com) — window management
   - [DockDoor](https://github.com/ejbills/DockDoor) — dock hover window previews
 
+- **Installed without committed settings** (Brewfile only)
+  - [Raycast](https://raycast.com) — launcher and Spotlight replacement
+  - [Postico](https://eggerapps.at/postico2/) — PostgreSQL client
+
 ## Structure
 
 ```
@@ -127,6 +131,57 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 Start tmux and press `C-a I` to install plugins. Start Neovim and `vim.pack`
 will fetch plugins on first launch; run `:Mason` to install language servers,
 formatters, and linters.
+
+## Reference
+
+### Command-line tools
+
+| Tool | What it does |
+| --- | --- |
+| [Fish Shell](https://fishshell.com) | User-friendly shell with autosuggestions, syntax highlighting, and sensible defaults out of the box. |
+| [tmux](https://github.com/tmux/tmux) | Terminal multiplexer for managing multiple sessions, windows, and panes from a single screen. |
+| [Neovim](https://neovim.io) | Hyperextensible Vim-based text editor built for modern workflows and plugin ecosystems. |
+| [fzf](https://github.com/junegunn/fzf) | Blazing-fast general-purpose fuzzy finder for files, commands, and anything piped to it. |
+| [zoxide](https://github.com/ajeetdsouza/zoxide) | Smarter `cd` that learns your most-used directories and jumps to them instantly. |
+
+### Neovim plugins
+
+Installed by `vim.pack` from the list at the top of `nvim/init.lua`, pinned in
+`nvim/nvim-pack-lock.json`.
+
+| Plugin | What it does |
+| --- | --- |
+| [blink.cmp](https://github.com/saghen/blink.cmp) | High-performance completion plugin with fuzzy matching and async support. |
+| [blink.lib](https://github.com/saghen/blink.lib) | Shared Lua library that blink.cmp depends on. |
+| [conform.nvim](https://github.com/stevearc/conform.nvim) | Lightweight formatter plugin that runs formatters on save with minimal config. |
+| [friendly-snippets](https://github.com/rafamadriz/friendly-snippets) | Collection of preconfigured snippets for a wide range of languages and frameworks. |
+| [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) | Git integration that shows added, changed, and removed lines in the sign column. |
+| [mason.nvim](https://github.com/williamboman/mason.nvim) | Portable package manager for LSP servers, linters, formatters, and DAP adapters. |
+| [mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim) | Bridge between Mason and lspconfig for automatic LSP server setup. |
+| [nvim-autopairs](https://github.com/windwp/nvim-autopairs) | Automatically closes brackets, quotes, and other paired characters as you type. |
+| [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) | Official quickstart configs for Neovim's built-in LSP client. |
+| [nvim-surround](https://github.com/kylechui/nvim-surround) | Easily add, change, and delete surrounding pairs like quotes, brackets, and tags. |
+| [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | Treesitter integration for better syntax highlighting, indentation, and code navigation. |
+| [nvim-ts-autotag](https://github.com/windwp/nvim-ts-autotag) | Automatically closes and renames HTML/JSX tags using Treesitter. |
+| [oil.nvim](https://github.com/stevearc/oil.nvim) | File explorer that lets you edit your filesystem like a normal buffer. |
+| [plenary.nvim](https://github.com/nvim-lua/plenary.nvim) | Lua utility library used as a dependency by many popular plugins. |
+| [render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim) | Renders Markdown inline with headings, code blocks, and formatting styled in the buffer. |
+| [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) | Highly extensible fuzzy finder for files, grep results, LSP symbols, and more. |
+| [tinted-nvim](https://github.com/tinted-theming/tinted-nvim) | Base16 colorscheme support; reads the palette tinty generates. |
+| [ts-comments.nvim](https://github.com/folke/ts-comments.nvim) | Sets the correct comment style based on cursor location in embedded languages. |
+| [typescript-tools.nvim](https://github.com/pmizio/typescript-tools.nvim) | Native TypeScript language server integration, faster than tsserver wrappers. |
+| [vim-sleuth](https://github.com/tpope/vim-sleuth) | Automatically detects and sets the correct indentation style for each file. |
+| [vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator) | Seamless navigation between Neovim splits and tmux panes with the same keybindings. |
+| [which-key.nvim](https://github.com/folke/which-key.nvim) | Displays a popup of available keybindings as you type, so you never forget a shortcut. |
+
+### Deliberately not installed
+
+| Plugin | Why not |
+| --- | --- |
+| lazy.nvim | This config uses `vim.pack`, Neovim's built-in plugin manager. A second manager would fight it over the same plugins. |
+| onedark.nvim | The colorscheme here is `tinted-nvim` driven by tinty. Two colorschemes would compete for the same highlight groups. |
+| nvim-ts-context-commentstring | Superseded by `ts-comments.nvim`, which is installed and does the same job. |
+| vim-rhubarb | Only useful as a vim-fugitive extension, and fugitive is not installed. |
 
 ## Notes
 

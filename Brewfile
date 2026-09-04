@@ -30,3 +30,7 @@ brew "crush"       # config in crush/crushrc
 cask "stats"       # menu bar system monitor
 cask "rectangle"   # window management
 cask "dockdoor"    # dock hover window previews
+
+# macOS apps without committed settings
+cask "raycast"     # launcher / spotlight replacement
+cask "postico"     # PostgreSQL client
