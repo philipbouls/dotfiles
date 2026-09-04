@@ -57,8 +57,8 @@ Configuration files for my development environment across macOS and Linux.
 
 - **System defaults** — `macos/defaults.sh`
   - Fast key repeat: holding a key repeats it quickly instead of opening the
-    accent picker (`ApplePressAndHoldEnabled` off, `KeyRepeat` 2,
-    `InitialKeyRepeat` 15)
+    accent picker (`ApplePressAndHoldEnabled` off, `KeyRepeat` 1,
+    `InitialKeyRepeat` 10)
 
 - **App preferences** — `macos/apps.sh` imports the committed plists
   - [Stats](https://github.com/exelban/stats) — menu bar system monitor
