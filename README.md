@@ -148,6 +148,22 @@ formatters, and linters.
 - `crush/crushrc` runs as Bash at startup and is world-readable in this repo.
   Anything secret belongs in `crush/crushrc.local`, which is gitignored. Verify
   with `git check-ignore -v crush/crushrc.local` before adding keys.
+- **Crush needs setup before first use, and has not been run yet.** It was
+  added to the Brewfile and symlinked, but never installed or launched, so
+  nothing here is verified against a running Crush. To finish:
+
+  ```sh
+  brew bundle                                    # installs crush via the tap
+  echo 'export ANTHROPIC_API_KEY="sk-..."' >> ~/.config/crush/crushrc.local
+  crush                                          # first launch
+  ```
+
+  Then decide on permissions — `crushrc` deliberately leaves
+  `permissions allow ...` commented out, so Crush prompts for everything until
+  you opt in. Uncomment `permissions allow view` for read-only auto-approval,
+  or `permissions allow view edit` to include edits.
+- There was never an OpenCode config in this repo. Crush was added alongside
+  the existing tools, not swapped in for anything.
 - `macos/apps.sh` uses `defaults import`, which **replaces** the whole
   preference domain — anything not in the committed plist resets to default.
   It exports whatever is already there to `~/.dotfiles-prefs-backup/<timestamp>/`
