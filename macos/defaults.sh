@@ -16,10 +16,10 @@ defaults write -g ApplePressAndHoldEnabled -bool false
 
 # Repeat rate once repeating starts. Lower is faster; 2 is one notch above
 # the fastest the Settings UI exposes (1 is fastest, 120 is slowest).
-defaults write -g KeyRepeat -int 2
+defaults write -g KeyRepeat -int 1
 
 # How long to hold before repeating begins. Lower is shorter; 15 = 225ms.
-defaults write -g InitialKeyRepeat -int 15
+defaults write -g InitialKeyRepeat -int 10
 
 echo "  keyboard: press-and-hold off, KeyRepeat=2, InitialKeyRepeat=15"
 
