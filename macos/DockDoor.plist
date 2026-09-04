@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>UserKeybind</key>
+	<string>{"keyCode":48,"modifierFlags":1048840}</string>
+	<key>enableDockPreviews</key>
+	<false/>
+	<key>instantWindowSwitcher</key>
+	<true/>
+	<key>reopenSettingsAfterRestart</key>
+	<false/>
+	<key>switcherShowAppHeader</key>
+	<true/>
+	<key>switcherShowWindowTitle</key>
+	<false/>
+	<key>switcherTrafficLightButtonsVisibility</key>
+	<string>alwaysVisible</string>
+	<key>useClassicWindowOrdering</key>
+	<false/>
+	<key>windowPreviewSortOrder</key>
+	<string>alphabeticalByTitle</string>
+	<key>windowSwitcherControlPosition</key>
+	<string>topLeading</string>
+	<key>windowSwitcherSortOrder</key>
+	<string>alphabeticalByTitle</string>
+</dict>
+</plist>

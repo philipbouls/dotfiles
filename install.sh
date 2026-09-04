@@ -37,10 +37,17 @@ if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
 	git clone --depth 1 https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
 fi
 
+if [ "$(uname)" = "Darwin" ]; then
+	printf '\n'
+	"$DOTFILES/macos/defaults.sh"
+fi
+
 cat <<'DONE'
 
 Done. Next steps:
   - Start tmux and press C-a I to install tmux plugins
   - Start nvim; vim.pack fetches plugins on first launch
   - Run :Mason in nvim to install LSP servers, formatters and linters
+  - macOS: run ./macos/apps.sh to import Stats/Rectangle/DockDoor settings
+    (it quits those apps briefly, so it is not run automatically)
 DONE

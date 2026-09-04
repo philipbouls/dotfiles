@@ -42,6 +42,19 @@ Configuration files for my development environment across macOS and Linux.
   - Automatic light/dark theme switching (Nvim Light / Nvim Dark)
   - `Cmd+Ctrl+T` global quick terminal toggle
 
+### macOS
+
+- **System defaults** — `macos/defaults.sh`
+  - Fast key repeat: holding a key repeats it quickly instead of opening the
+    accent picker (`ApplePressAndHoldEnabled` off, `KeyRepeat` 2,
+    `InitialKeyRepeat` 15)
+
+- **App preferences** — `macos/apps.sh` imports the committed plists
+  - [Stats](https://github.com/exelban/stats) — menu bar system monitor
+    (CPU, GPU, RAM, disk, network, battery, clock)
+  - [Rectangle](https://rectangleapp.com) — window management
+  - [DockDoor](https://github.com/ejbills/DockDoor) — dock hover window previews
+
 ## Structure
 
 ```
@@ -56,23 +69,37 @@ dotfiles/
 │   └── README.md             # quick.nvim docs and key mappings
 ├── ghostty/
 │   └── config                # Ghostty terminal config
+├── macos/
+│   ├── defaults.sh           # System defaults (key repeat)
+│   ├── apps.sh               # Imports the app plists below
+│   ├── Stats.plist
+│   ├── Rectangle.plist
+│   └── DockDoor.plist
 ├── .tmux.conf                # Tmux config
 ├── .luarc.json               # Lua LSP: declare `vim` as a global
+├── Brewfile                  # Packages and casks these configs assume
 └── install.sh                # Symlinks everything into place
 ```
 
 ## Prerequisites
 
-- **Neovim 0.12+** — `vim.pack` is required and does not exist in earlier versions
-- `git`, `fish`, `tmux`
-- Optional but assumed by the fish abbreviations: `zoxide`, `fzf`, `bat`, `tree`
+Everything is listed in the [Brewfile](Brewfile):
+
+```sh
+brew bundle
+```
+
+Note **Neovim 0.12+** is required — `nvim/` uses `vim.pack`, which does not
+exist in earlier versions.
 
 ## Installation
 
 ```sh
 git clone <this-repo> ~/dotfiles
 cd ~/dotfiles
-./install.sh
+brew bundle          # install packages and apps
+./install.sh         # symlink configs, apply macOS defaults
+./macos/apps.sh      # import Stats/Rectangle/DockDoor settings (macOS only)
 ```
 
 `install.sh` symlinks each config into place and backs up anything already
@@ -97,6 +124,13 @@ formatters, and linters.
   from [typescript-tools.nvim](https://github.com/pmizio/typescript-tools.nvim).
   That plugin is listed in the lockfile but is not in the `vim.pack.add` list,
   so the mapping will error until it's added.
+
+- The committed app plists have machine-specific state stripped (window
+  positions, update-checker timestamps, and a macOS bookmark blob that
+  embedded a local path). Re-export with `defaults export <domain> -` and
+  strip again if you update them.
+- `macos/apps.sh` uses `defaults import`, which **replaces** the whole
+  preference domain — anything not in the committed plist resets to default.
 
 ## Credits
 
