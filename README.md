@@ -42,6 +42,17 @@ Configuration files for my development environment across macOS and Linux.
   - Automatic light/dark theme switching (Nvim Light / Nvim Dark)
   - `Cmd+Ctrl+T` global quick terminal toggle
 
+### AI Assistant
+
+- **[Crush](https://github.com/charmbracelet/crush)** — `crush/crushrc`
+  - Config is Bash with Crush builtins (`provider`, `model`, `mcp`,
+    `permissions`), executed at startup
+  - Ships as a documented skeleton: permissions, providers and MCP servers are
+    commented out rather than chosen for you
+  - **No API keys are committed.** Crush reads them from the environment
+    (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, …). Put them in
+    `crush/crushrc.local`, which is gitignored and sourced automatically
+
 ### macOS
 
 - **System defaults** — `macos/defaults.sh`
@@ -69,6 +80,8 @@ dotfiles/
 │   └── README.md             # quick.nvim docs and key mappings
 ├── ghostty/
 │   └── config                # Ghostty terminal config
+├── crush/
+│   └── crushrc               # Crush config (crushrc.local is gitignored)
 ├── macos/
 │   ├── defaults.sh           # System defaults (key repeat)
 │   ├── apps.sh               # Imports the app plists below
@@ -132,6 +145,9 @@ formatters, and linters.
   positions, update-checker timestamps, and a macOS bookmark blob that
   embedded a local path). Re-export with `defaults export <domain> -` and
   strip again if you update them.
+- `crush/crushrc` runs as Bash at startup and is world-readable in this repo.
+  Anything secret belongs in `crush/crushrc.local`, which is gitignored. Verify
+  with `git check-ignore -v crush/crushrc.local` before adding keys.
 - `macos/apps.sh` uses `defaults import`, which **replaces** the whole
   preference domain — anything not in the committed plist resets to default.
   It exports whatever is already there to `~/.dotfiles-prefs-backup/<timestamp>/`

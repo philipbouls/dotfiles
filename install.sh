@@ -30,6 +30,7 @@ printf 'Installing dotfiles from %s\n' "$DOTFILES"
 link fish            "$CONFIG/fish"
 link nvim            "$CONFIG/nvim"
 link ghostty         "$CONFIG/ghostty"
+link crush           "$CONFIG/crush"
 link .tmux.conf      "$HOME/.tmux.conf"
 
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then

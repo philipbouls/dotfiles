@@ -1,0 +1,40 @@
+# crushrc — configuration for Crush (https://github.com/charmbracelet/crush)
+#
+# This is Bash with Crush-specific builtins: `provider`, `model`, `mcp`,
+# `permissions`. Crush runs it in a full shell at startup, so treat everything
+# here as trusted code.
+#
+# ---------------------------------------------------------------------------
+# NEVER put an API key in this file. This repo is public.
+# ---------------------------------------------------------------------------
+# Crush reads keys from the environment — ANTHROPIC_API_KEY, OPENAI_API_KEY,
+# GEMINI_API_KEY, and so on. Set them in crushrc.local (untracked, sourced at
+# the bottom of this file), or pull them from a secret manager:
+#
+#   export ANTHROPIC_API_KEY="$(op read 'op://Personal/Anthropic/api-key')"
+#
+# Interactive `crush` login state is stored in ~/.local/share/crush and is
+# never written here.
+
+# --- Permissions -----------------------------------------------------------
+# Auto-approve tools so Crush stops asking. Left off by default — decide this
+# deliberately rather than inheriting it.
+#
+#   permissions allow view          # read-only: view files
+#   permissions allow view edit     # also allow edits without prompting
+
+# --- Providers and models --------------------------------------------------
+# Add providers Crush doesn't know about, or register local models:
+#
+#   provider add ollama --type ollama --base-url "http://localhost:11434/v1"
+#   model add ollama/llama3.3 --name "Llama 3.3" --context-window 128000
+
+# --- MCP servers -----------------------------------------------------------
+# Reference secrets indirectly; never inline a token here:
+#
+#   mcp add github --type http --url "https://api.github.com/mcp/" \
+#     --header Authorization "Bearer $(op read 'op://Personal/GitHub/token')"
+
+# --- Machine-local overrides -----------------------------------------------
+# Untracked (see .gitignore). Put API keys and per-machine tweaks here.
+[ -f "$HOME/.config/crush/crushrc.local" ] && source "$HOME/.config/crush/crushrc.local"

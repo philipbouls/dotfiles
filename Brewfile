@@ -4,6 +4,7 @@
 # machine. Add to it as the configs grow.
 
 tap "tinted-theming/tinted"
+tap "charmbracelet/tap"
 
 # Shell & terminal
 brew "fish"
@@ -21,6 +22,9 @@ brew "fzf"         # fuzzy finding
 brew "bat"         # `cat` abbreviation
 brew "tree"        # `ls` / `l` abbreviations
 brew "tinty"       # base16 theming; nvim/init.lua reads its generated colors
+
+# AI coding assistant
+brew "crush"       # config in crush/crushrc
 
 # macOS apps configured in macos/
 cask "stats"       # menu bar system monitor

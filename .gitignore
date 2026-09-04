@@ -6,6 +6,11 @@ fish/conf.d/
 fish/themes/
 fish/.cache/
 
+# Crush: machine-local overrides, where API keys go. Never commit these.
+crush/crushrc.local
+crush/*.local
+crush/skills/
+
 # tpm installs plugins here
 .tmux/plugins/
 
