@@ -1,0 +1,13 @@
+# Fish writes these at runtime (relevant if fish/ is symlinked as ~/.config/fish)
+fish/fish_variables
+fish/fish_history
+fish/completions/
+fish/conf.d/
+fish/themes/
+fish/.cache/
+
+# tpm installs plugins here
+.tmux/plugins/
+
+# macOS
+.DS_Store
